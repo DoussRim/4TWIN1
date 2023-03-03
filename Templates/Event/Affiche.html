@@ -1,0 +1,32 @@
+{%if user.is_authenticated %}
+<p>Welcome, {{user.username}}</p>
+<form action="{% url 'logout'%}">
+    <input type="submit" value="logout">
+</form>
+{%endif%}
+<table border=1>
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Image</th>
+        <th>Category</th>
+        <th>Etat</th>
+        <th>Nbe Participante</th>
+        <th>Detail</th>
+        <th>DetailGeneric</th>
+    </tr>
+    {% for e in ee%}
+    <tr>
+        <td>{{e.title}}</td>
+        <td>{{e.description}}</td>
+        <td>{{e.image}}</td>
+        <td>{{e.category}}</td>
+        <td>{{e.state}}</td>
+        <td>{{e.nbe_participant}}
+        <td><a href="{% url 'D' e.title %}">Detail</a></td>
+        <td><a href="{% url 'DD' e.id %}">Detail Generic</a></td>
+
+    </tr>
+    {%endfor%}
+
+</table>

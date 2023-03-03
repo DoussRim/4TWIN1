@@ -13,9 +13,9 @@ class Event(models.Model):
     description=models.TextField()
     image=models.ImageField(upload_to='images/',blank=True)
     CATEGORY_EVENT=(
-        ('Music','M'),
-        ('Sprot','S'),
-        ('Cinema','C')
+        ('M','Music'),
+        ('S','Sprot'),
+        ('C','Cinema')
     )
     category=models.CharField(max_length=8,choices=CATEGORY_EVENT)
     state=models.BooleanField(default=False)
@@ -34,6 +34,10 @@ class Event(models.Model):
         through="participation_event"  ,
         related_name="participations"       
     )
+    def __str__(self):
+        # return "Le titre de l'evt est :"+self.title
+        return f"l'evt est : {self.title}"
+    
     class Meta:
         constraints=[
             models.CheckConstraint(
@@ -41,6 +45,8 @@ class Event(models.Model):
                 name="Please check the event date!"
             )
         ]
+        # verbose_name=('Evenement')
+        verbose_name_plural=('Evenement')
 class participation_event(models.Model):
     person=models.ForeignKey(Person,on_delete=models.CASCADE)
     event=models.ForeignKey(Event,on_delete=models.CASCADE)

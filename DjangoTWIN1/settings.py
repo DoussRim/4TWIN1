@@ -57,7 +57,7 @@ ROOT_URLCONF = 'DjangoTWIN1.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['Templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -125,3 +125,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL="Person.Person"
+LOGOUT_REDIRECT_URL="login"
+LOGIN_REDIRECT_URL="Aff"
+LOGIN_URL='login'

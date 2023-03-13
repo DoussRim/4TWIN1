@@ -1,0 +1,15 @@
+{% load static %}
+<head>
+    <link href="{% static '/css/bootstrap.css' %}" rel="stylesheet">
+    <script src="{% static '/js/bootstrap.js' %}"></script>
+</head>
+<body>
+    {%block header%}
+        {% include 'header.html' %}
+    {%endblock%}
+    {% block content %}
+    {%endblock%}
+    {%block footer%}
+        {% include 'footer.html' %}
+    {%endblock%}
+</body>

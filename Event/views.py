@@ -5,8 +5,13 @@ from django.contrib import messages
 from .forms import FormEvent
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.db.models import F
 from django.urls import reverse_lazy
+from .Serializers import EventSerializer
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.decorators import api_view
+
 # Create your views here.
 def index(request):
     return HttpResponse("Bonjour")
@@ -28,6 +33,9 @@ class AfficheGeneric(LoginRequiredMixin,ListView):
     context_object_name="ee"
     # fields="__all__"
     ordering=['description']
+    # queryset=Event.objects.filter(state=True)
+    # def filterState(self):
+    #     return Event.objects.filter(state=True)
 def Detail(request,title):
     event=Event.objects.get(title=title)
     return render(request,'Event/Detail.html',
@@ -63,4 +71,34 @@ class Ajout(CreateView):
     # fields="__all__"
     form_class=FormEvent
     success_url=reverse_lazy('Aff')
-    
+def Participate(request,event_id):
+    object=participation_event()
+    object.person=Person.objects.get(cin=request.user.cin)
+    object.event=Event.objects.get(pk=event_id)
+    if participation_event.objects.filter(
+        person=object.person, event=object.event).count()==0:
+        object.save()
+        Event.objects.filter(pk=event_id).update(
+            nbe_participant=F('nbe_participant')+1
+        )
+    else:
+        return HttpResponse(
+            f"You're already participating in the event {object.event.title}"
+        )
+    return redirect("Aff")
+def Cancel(request,id):
+    evt=Event.objects.get(id=id)
+    person=Person.objects.get(cin=123)
+    if participation_event.objects.filter(
+        person=person, event=evt).count()!=0:
+        participation_event.objects.filter(
+        person=person, event=evt).delete()
+        evt.nbe_participant-=1
+        evt.save()
+    return redirect("Aff")
+@api_view(['GET'])
+def get_Events(request):
+    events=Event.objects.all()
+    serializer=EventSerializer(events,many=True)
+    return Response(serializer.data,
+                    status=status.HTTP_200_OK)

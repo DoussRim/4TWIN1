@@ -1,0 +1,26 @@
+{% load static%}
+{%block header%}
+<img src="{% static '/ESPRITTTT.jpg'%}">
+<ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="{% url "Aff" %}">Affiche</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url "Add" %}">Ajout</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url "Ajout" %}">Add</a>
+    </li>
+
+<li class="nav-item">
+{%if user.is_authenticated %}
+<p>Welcome, {{user.username}}</p>
+<form action="{% url 'logout'%}">
+    <div class="form-group">
+    <input type="submit" value="logout" class="form-control">
+    </div>
+</form>
+{%endif%}
+</li>
+</ul>
+{%endblock%}

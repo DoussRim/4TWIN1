@@ -10,5 +10,9 @@ urlpatterns = [
     path('Detail/<str:title>',Detail,name="D"),
     path('DG/<int:pk>',DetailGeneric.as_view(),name="DD"),
     path('Ajout/',Add,name="Add"),
-    path('Add/',Ajout.as_view(),name='Ajout')  
+    path('Add/',Ajout.as_view(),name='Ajout'),
+    path('Part/<int:event_id>',Participate,name="Participate"),
+    path('Cancel/<int:id>',Cancel,name="Cancel"),
+    path('api/',get_Events)
+
 ]
